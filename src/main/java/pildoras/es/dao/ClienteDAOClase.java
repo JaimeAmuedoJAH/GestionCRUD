@@ -36,6 +36,62 @@ public class ClienteDAOClase implements ClienteDAO{
 		
 		return clientes;
 	}
+
+	@Override
+	@Transactional
+	public void insertarCliente(Cliente cliente) {
+		// TODO Auto-generated method stub
+		
+		Session miSession = sessionFactory.getCurrentSession();
+		
+		//Insertar el cliente
+		
+		miSession.save(cliente);
+	}
+
+	@Override
+	@Transactional
+	public Cliente getClientes(int idCliente) {
+		// TODO Auto-generated method stub
+		
+		//Obtener la session
+		
+		Session miSession = sessionFactory.getCurrentSession();
+				
+		//Creamos la consulta (Query)
+				
+		Query<Cliente> miQuery = miSession.createQuery("FROM Cliente WHERE id=" + idCliente, Cliente.class);
+				
+		//Ejecutar la query y devolver resultados
+				
+		Cliente cliente = miQuery.getSingleResult();
+				
+		return cliente;
+	}
+
+	@Override
+	@Transactional
+	public void actualizarCliente(Cliente cliente) {
+		// TODO Auto-generated method stub
+		
+		Session miSession = sessionFactory.getCurrentSession();
+		
+		miSession.update(cliente);
+	}
+
+	@Override
+	@Transactional
+	public void eliminarCliente(int idCliente) {
+		// TODO Auto-generated method stub
+		
+		Session miSession = sessionFactory.getCurrentSession();
+		
+		Query<Cliente> miQuery = miSession.createQuery("DELETE from Cliente WHERE id=:IdDelCliente");
+		
+		miQuery.setParameter("IdDelCliente", idCliente);
+		
+		miQuery.executeUpdate();
+	}
 	
 
 }
